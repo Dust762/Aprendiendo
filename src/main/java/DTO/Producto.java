@@ -5,13 +5,14 @@ public class Producto {
     private String nombre;
     private String marca;
     private int cantidad;
-    private int contadorProd;
-
-    public Producto(String nombre, String marca, int cantidad){
-        this.idProd = ++contadorProd;
+    static private int contadorProd;
+    private int precio;
+    public Producto(String nombre, String marca, int cantidad, int precio){
+        this.idProd = ++Producto.contadorProd;
         this.nombre = nombre;
         this.marca = marca;
         this.cantidad = cantidad;
+        this.precio = precio;
     }
     
     public int getIdProd() {
@@ -46,10 +47,20 @@ public class Producto {
         this.cantidad = cantidad;
     }
 
+    public int getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(int precio) {
+        this.precio = precio;
+    }
+
     @Override
     public String toString() {
-        return "Producto{" + "idProd=" + idProd + ", nombre=" + nombre + ", marca=" + marca + ", cantidad=" + cantidad + '}';
+        return "Producto{" + "idProd=" + idProd + ", nombre=" + nombre + ", marca=" + marca + ", cantidad=" + cantidad + ", precio=" + precio + '}';
     }
+
+    
     
     
 }

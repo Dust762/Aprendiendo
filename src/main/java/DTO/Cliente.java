@@ -7,11 +7,11 @@ public class Cliente {
     private int id;
     private String nombre;
     private String apellido;
-    private int contadorCliente;
+    static private int contadorCliente;
     private List<Producto> productos = new ArrayList<>();
     
     public Cliente(String nombre, String apellido){
-        this.id = ++contadorCliente;
+        this.id = ++Cliente.contadorCliente;
         this.nombre = nombre;
         this.apellido = apellido;
         this.productos = new ArrayList<>();
@@ -48,7 +48,12 @@ public class Cliente {
     public void setProductos(List<Producto> productos) {
         this.productos = productos;
     }
-
+    public void agregarProducto(Producto p){
+        this.productos.add(p);
+    }
+    public void eliminarProducto(Producto p){
+        this.productos.remove(p);
+    }
     @Override
     public String toString() {
         return "Cliente{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", productos=" + productos + '}';
