@@ -77,11 +77,11 @@ public class ManejoProductos {
                     break;
                 case 5:
                     mostrarFactura();
-                    break;    
+                    break;
                 case 6:
                     agregarProductosCliente();
                     break;
-                    //hacer crud de productos dentro del cliente
+                //hacer crud de productos dentro del cliente
                 case 7:
                     modificarListaProductos();
                     break;
@@ -232,7 +232,7 @@ public class ManejoProductos {
     }
 
     private static void agregarProductosCliente() {
-        int id = 0;
+        int id = 0, idProd = 0;
         listarClientes();
         try {
             System.out.println("Ingrese el id del cliente para agregar productos");
@@ -242,7 +242,20 @@ public class ManejoProductos {
         }
         Cliente tmp = tienda.retornarCliente(id);
         if (tmp != null) {
-
+            listarProductos();
+            try {
+                System.out.println("Ingrese el id del producto para agregar productos");
+                idProd = Integer.parseInt(bf.readLine().trim());
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("Ingrese un id valido");
+            }
+            Producto temp = tienda.retornarProducto(idProd);
+            if (temp != null) {
+                tmp.agregarProducto(temp);
+                System.out.println("Se agrego el producto");
+            }else{
+                System.out.println("El producto no existe");
+            }
         } else {
             System.out.println("No existe ese cliente");
         }
@@ -250,7 +263,7 @@ public class ManejoProductos {
 
     private static void crearProducto() throws IOException {
         String nombre, marca;
-        int cantidad = 0;
+        int cantidad = 0, precio = 0;
         do {
             System.out.println("Ingrese el nombre del producto");
             nombre = bf.readLine().trim();
@@ -269,7 +282,16 @@ public class ManejoProductos {
 
         } while (cantidad <= 0);
 
-        Producto p = new Producto(nombre, marca, cantidad);
+        do {
+            try {
+                System.out.println("Ingrese el precio del producto");
+                precio = Integer.parseInt(bf.readLine().trim());
+            } catch (Exception e) {
+                System.out.println("Ingrese un numero valido");
+            }
+
+        } while (precio <= 0);
+        Producto p = new Producto(nombre, marca, cantidad, precio);
         tienda.crearProducto(p);
         System.out.println("Se creo el producto");
         System.out.println("");
@@ -277,7 +299,7 @@ public class ManejoProductos {
 
     private static void modificarProducto() throws IOException {
         String nombre, marca;
-        int cantidad = 0, id = 0, op = 0;
+        int cantidad = 0, id = 0, op = 0, precio = 0;
         listarProductos();
         try {
             System.out.println("Ingrese el id del producto");
@@ -292,7 +314,8 @@ public class ManejoProductos {
                 System.out.println("1.Nombre");
                 System.out.println("2.Marca");
                 System.out.println("3.Cantidad");
-                System.out.println("4.Salir");
+                System.out.println("4.Precio");
+                System.out.println("5.Salir");
                 try {
                     op = Integer.parseInt(bf.readLine().trim());
                 } catch (IOException | NumberFormatException e) {
@@ -327,12 +350,23 @@ public class ManejoProductos {
 
                         break;
                     case 4:
+                        do {
+                            System.out.println("Ingrese el precio del producto");
+                            try {
+                                cantidad = Integer.parseInt(bf.readLine().trim());
+                            } catch (Exception e) {
+                                System.out.println("Ingrese un numero valido");
+                            }
+                            tmp.setPrecio(precio);
+                        } while (precio <= 0);
+                        break;
+                    case 5:
                         System.out.println("Saliendo...");
                         break;
                     default:
                         System.out.println("Ingrese una opcion valida");
                 }
-            } while (op != 4);
+            } while (op != 5);
             tienda.modificarProducto(tmp, id);
             System.out.println("Se modifico el producto");
         } else {
